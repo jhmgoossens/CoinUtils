@@ -47,9 +47,6 @@
 
 #else  /* HAVE_CONFIG_H */
 
-// No idea where to Define, but this seems to work (JWG)..
-#define COINUTILSLIB_EXPORT
-
 #ifdef COINUTILS_BUILD
 #include "config_default.h"
 #else

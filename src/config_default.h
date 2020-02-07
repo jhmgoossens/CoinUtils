@@ -4,8 +4,7 @@
 
 /* this needs to come before the include of config_coinutils_default.h */
 #ifndef COINUTILSLIB_EXPORT
-#ifdef DLL_EXPORT
-/* assuming we build a CoinUtils DLL */
+#if defined(_WIN32) && defined(DLL_EXPORT)
 #define COINUTILSLIB_EXPORT __declspec(dllexport)
 #else
 #define COINUTILSLIB_EXPORT
@@ -26,12 +25,6 @@
 /* Define to the debug verbosity level (0 is no output) */
 #define COIN_COINUTILS_VERBOSITY 0
 
-/* Define to 1 if bzlib is available */
-/* #define COIN_HAS_BZLIB */
-
-/* Define to 1 if zlib is available */
-/* #define COIN_HAS_ZLIB */
-
 #ifdef _MSC_VER
 /* Define to be the name of C-function for Inf check */
 #define COIN_C_FINITE _finite
@@ -40,5 +33,9 @@
 #define COIN_C_ISNAN _isnan
 #endif
 
-/* vi: softtabstop=2 shiftwidth=2 expandtab tabstop=2
-*/
+/* Define to 1 if bzlib is available */
+/* #define COIN_HAS_BZLIB */
+
+/* Define to 1 if zlib is available */
+/* #define COIN_HAS_ZLIB */
+

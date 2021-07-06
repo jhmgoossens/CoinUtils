@@ -20,6 +20,7 @@
 #include "CoinPackedMatrix.hpp"
 #include "CoinMessage.hpp"
 #include "CoinFileIO.hpp"
+#include "CoinSort.hpp"
 class CoinSet;
 
 const int MAX_OBJECTIVES = 2;
@@ -226,6 +227,12 @@ public:
   /// Get pointer to column-wise copy of the coefficient matrix
   const CoinPackedMatrix *getMatrixByCol() const;
 
+  /// Get pointer to quadratic objective (or NULL)
+  CoinPackedMatrix *getQuadraticObjective();
+  
+  /// copy in quadratic objective
+  void setQuadraticObjective(CoinPackedMatrix * matrix);
+
   /// Get objective function name
   const char *getObjName() const;
 
@@ -287,7 +294,7 @@ public:
   /// Return true if maximization problem reformulated as minimization
   inline bool wasMaximization() const
   {
-    return wasMaximization_;
+    return wasMaximization_==-1;
   }
 
   /// Set objective offset
@@ -575,6 +582,13 @@ protected:
   /// Pointer to row-wise copy of problem matrix coefficients.
   CoinPackedMatrix *matrixByRow_;
 
+  /// Pointer to quadratic objective (or NULL)
+  CoinPackedMatrix *quadraticObjective_;
+
+  /// Quadratic objective as list
+  typedef CoinTriple< double, std::string, std::string > CoinLpQuadratic;
+  std::vector<CoinLpQuadratic> quadraticList_;
+
   /// Pointer to dense vector of row lower bounds
   double *rowlower_;
 
@@ -635,8 +649,12 @@ protected:
   /// Objective function name
   char *objName_[MAX_OBJECTIVES];
 
-  /// Maximization reformulation flag
-  bool wasMaximization_;
+  /** Maximization reformulation flag
+      0 - minimization
+      1 - maximization and currently treated as maximization
+      -1 - maximization but currently treated as minimization
+   */
+  int wasMaximization_;
 
   /** Row names (including objective function name) 
       and column names when stopHash() for the corresponding 
@@ -725,7 +743,7 @@ protected:
   /// Locate the objective function.
   /// Return 1 if found the keyword "Minimize" or one of its variants,
   /// -1 if found keyword "Maximize" or one of its variants.
-  int find_obj() const;
+  int find_obj(); 
 
   /// Return an integer indicating if the keyword "subject to" or one
   /// of its variants has been read.

@@ -51,6 +51,7 @@ int main (int argc, const char *argv[])
     Set default location for Data directory, assuming traditional
     package layout.
   */
+deliberate fail to test github action build step fail
   const char dirsep =  CoinFindDirSeparator();
   std::string dataDir ;
   if (dirsep == '/')

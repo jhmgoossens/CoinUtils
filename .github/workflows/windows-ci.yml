@@ -71,8 +71,10 @@ jobs:
         shell: cmd
         run: |
           msbuild ${{ github.event.repository.name }}\MSVisualStudio\v17\${{ github.event.repository.name }}.sln /p:Configuration=Release /p:Platform=x64 /m
-          if errorlevel 1 exit
-          echo Build finished, now Install to dist
+      - name: Install project for msvs
+        if: ${{ matrix.arch == 'msvs' }}
+        shell: cmd
+        run: |
           mkdir dist
           copy ${{ github.event.repository.name }}\README.* dist\.
           copy ${{ github.event.repository.name }}\AUTHORS.* dist\.

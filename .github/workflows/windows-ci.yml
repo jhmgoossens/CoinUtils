@@ -71,6 +71,7 @@ jobs:
         shell: cmd
         run: |
           msbuild ${{ github.event.repository.name }}\MSVisualStudio\v17\${{ github.event.repository.name }}.sln /p:Configuration=Release /p:Platform=x64 /m
+          if errorlevel 1 exit
           echo Build finished, now Install to dist
           mkdir dist
           copy ${{ github.event.repository.name }}\README.* dist\.

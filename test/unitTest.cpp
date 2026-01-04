@@ -52,6 +52,7 @@ int main (int argc, const char *argv[])
     Set default location for Data directory, assuming traditional
     package layout.
   */
+	WindowsErrorPopupBlocker();
 	assert(1 != 1);
   const char dirsep =  CoinFindDirSeparator();
   std::string dataDir ;

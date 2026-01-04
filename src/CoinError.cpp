@@ -10,10 +10,12 @@ bool COINUTILSLIB_EXPORT CoinError::printErrors_ = false;
     crashes */
 #ifdef HAVE_WINDOWS_H
 #include <windows.h>
+#include <stdlib.h>
 COINUTILSLIB_EXPORT
 void WindowsErrorPopupBlocker()
 {
   SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
+  _set_abort_behavior(0, _WRITE_ABORT_MSG | _CALL_REPORTFAULT);
 }
 #else
 COINUTILSLIB_EXPORT

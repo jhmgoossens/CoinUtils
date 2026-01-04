@@ -14,6 +14,7 @@ bool COINUTILSLIB_EXPORT CoinError::printErrors_ = false;
 COINUTILSLIB_EXPORT
 void WindowsErrorPopupBlocker()
 {
+    std::cout << "WindowsErrorPopupBlocker called" << std::endl;
   SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
   _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG);
   _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);

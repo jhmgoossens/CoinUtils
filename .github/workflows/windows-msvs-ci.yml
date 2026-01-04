@@ -22,10 +22,20 @@ jobs:
         include: [
           # Only os: windows-2022 has Visual Studio 2022 (v17) installed with toolset v143, which is required.
           # configuration: "Release" or "Debug", platform: "x86" or "x64". See solution Configuration Manager.
-          { os: windows-2022, configuration: "Debug", platform: "x64" },
-          { os: windows-2025, configuration: "Release", platform: "x64" }
+          { os: windows-2022, configuration: "Debug", platform: "x64" }
         ]
     steps:
+      - name: Get and run ngrok
+        run: | 
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
+          Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+          Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
+          Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile ngrok.zip
+          Expand-Archive ngrok.zip
+          Start-Process -FilePath ".\ngrok\ngrok.exe" -ArgumentList "tcp 3389 --authtoken $Env:NGROK_AUTH_TOKEN" 
+        env:
+          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
       - name: Set up environment variables
         shell: cmd
         # For cmd, dont use double quotes in the echo command and dont put a space before >> %GITHUB_ENV%

@@ -14,6 +14,7 @@ bool COINUTILSLIB_EXPORT CoinError::printErrors_ = false;
 COINUTILSLIB_EXPORT
 void WindowsErrorPopupBlocker()
 {
+    printf("WindowsErrorPopupBlocker called printf");
     std::cout << "WindowsErrorPopupBlocker called" << std::endl;
   SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
   _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE | _CRTDBG_MODE_DEBUG);
@@ -21,7 +22,12 @@ void WindowsErrorPopupBlocker()
 }
 #else
 COINUTILSLIB_EXPORT
-void WindowsErrorPopupBlocker() {}
+void WindowsErrorPopupBlocker() 
+{
+    printf("Ignore WindowsErrorPopupBlocker called printf");
+    std::cout << "Ignore WindowsErrorPopupBlocker called" << std::endl;
+}
+
 #endif
 
 /* vi: softtabstop=2 shiftwidth=2 expandtab tabstop=2

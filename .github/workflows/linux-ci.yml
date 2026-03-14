@@ -23,7 +23,7 @@ jobs:
           - os: macos-26
             build_static: false
             flags: CC=gcc-15 CXX=g++-15 OSX=26 ADD_CXXFLAGS=-Wl,-ld_classic
-            download_requirements: metis
+            download_requirements: brew install metis
     steps:
       - name: Checkout source
         uses: actions/checkout@v4

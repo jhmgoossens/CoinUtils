@@ -19,15 +19,35 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+        build_static: [true, false]
+        flags: [ADD_CXXFLAGS=-fvisibility=hidden]
+        download_requirements: [sudo apt install -y -qq gfortran liblapack-dev libmetis-dev libnauty-dev]
         include:
+          - os: macos-26-intel
+            build_static: false
+            flags: CC=clang CXX=clang++
+            download_requirements: brew install metis bash
+          - os: macos-15-intel
+            build_static: false
+            flags: CC=gcc-15 CXX=g++-15 ADD_CXXFLAGS=-Wl,-ld_classic
+            download_requirements: brew install metis bash
           - os: macos-26
             build_static: false
             flags: CC=gcc-15 CXX=g++-15 ADD_CXXFLAGS=-Wl,-ld_classic
-            download_requirements: brew install metis bash lapack nauty 
-          - os: macos-26-intel
+            download_requirements: brew install metis bash
+          - os: macos-15
             build_static: false
-            flags: CC=gcc-15 CXX=g++-15 ADD_CXXFLAGS=-Wl,-ld_classic
-            download_requirements: brew install metis bash lapack nauty
+            flags: CC=clang CXX=clang++
+            download_requirements: brew install metis bash
+          - os: macos-14
+            arch: arm64
+            build_static: false
+            flags: CC=gcc-13 CXX=g++-13 ADD_CXXFLAGS=-Wl,-ld_classic
+            download_requirements: brew install metis bash
+      matrix:
+        include:
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v6

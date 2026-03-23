@@ -45,9 +45,6 @@ jobs:
             build_static: false
             flags: CC=gcc-13 CXX=g++-13 ADD_CXXFLAGS=-Wl,-ld_classic
             download_requirements: brew install metis bash
-      matrix:
-        include:
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v6

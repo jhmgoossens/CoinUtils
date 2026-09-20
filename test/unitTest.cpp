@@ -50,11 +50,14 @@ void testingMessage( const char * const msg );
 // All parameters are optional.
 //----------------------------------------------------------------
 
-int main (int argc, const char *argv[])
+int main(int argc, const char* argv[])
 {
-  // Stop Windows popup
-  WindowsErrorPopupBlocker();
-  
+    // Stop Windows popup
+    WindowsErrorPopupBlocker();
+    // Triggers Runtime exception "Run-Time Check Failure #2 - Stack around the variable 'i' was corrupted." 
+    // at the end of the program
+    int i;
+    std::sscanf("123", "%lf", &i); 
   /*
     Set default location for Data directory, assuming traditional
     package layout.
